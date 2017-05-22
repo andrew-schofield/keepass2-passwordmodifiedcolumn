@@ -10,6 +10,18 @@
 
 * Enable the custom column. If history entries are available for an entry they will be used to calculated a password last modified date.
 
+## How it works
+
+Unfortunately KeePass doesn't keep track of when individual fields are modified in an entry, it just stores an overall `Last Modified` date for the whole entry. This poses a problem if you want to work out when a password was last changed.
+
+Luckily KeePass stores history entries whenever a modification is made. These can be used to work out when a password was last changed by comparing the passwords in the history entries.
+
+* If there are no history entries we have to assume that the `Last Modified ` date of the entry is the last time the password was changed.
+* If the password is the same in all the history entries and the current entry then we assume the modification date of the earliest history entry is the last time the password was changed.
+* Otherwise we start from the current entry and work backwards through the history looking for the first time the password changed and use the later of two entries which have different passwords.
+
+This should give accurate results if you maintain the history for each entry, however if you prune the history it will only be accurate as far back as there is history data.
+
 ## Notes
 
 * Sorting does not work currently
