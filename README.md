@@ -1,7 +1,8 @@
 # keepass2-passwordmodifiedcolumn
 
 **KeePass 2.x plugin to show the time a password was last modified.**
-**This functionality is now built into KeePass as of 2.36 however this is maintained for users that cannot upgrade.**
+
+**This functionality is now built into KeePass as of 2.36, however this is maintained for users that cannot upgrade.**
 
 **Download plgx from [here](https://github.com/andrew-schofield/keepass2-passwordmodifiedcolumn/raw/master/PasswordModifiedColumn.plgx).**
 
