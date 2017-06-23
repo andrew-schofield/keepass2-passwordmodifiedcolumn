@@ -1,7 +1,6 @@
 ﻿using KeePass.Plugins;
 using System.Drawing;
 using KeePass.Forms;
-using PasswordModifiedColumn;
 using KeePass.UI;
 using System.Diagnostics;
 using System.Collections.Generic;
@@ -9,8 +8,8 @@ using System.Windows.Forms;
 using KeePassLib;
 using System;
 using KeePass.Util.Spr;
-using PasswordModifiedColumn.Extensions;
 using KeePassLib.Utility;
+using KeePassExtensions;
 
 namespace PasswordModifiedColumn
 {
@@ -107,42 +106,9 @@ namespace PasswordModifiedColumn
             if (strColumnName != PmcpName) return string.Empty;
             if (pe == null) { Debug.Assert(false); return string.Empty; }
 
-            string strPw = pe.Strings.ReadSafe(PwDefs.PasswordField);
-
-
-            if (strPw.IndexOf('{') >= 0)
-            {
-                IPluginHost host = PasswordModifiedColumnExt.Host;
-                if (host == null) { Debug.Assert(false); return string.Empty; }
-
-                PwDatabase pd = null;
-                try
-                {
-                    pd = host.MainWindow.DocumentManager.SafeFindContainerOf(pe);
-                }
-                catch (Exception) { Debug.Assert(false); }
-
-                SprContext ctx = new SprContext(pe, pd, (SprCompileFlags.Deref |
-                    SprCompileFlags.TextTransforms), false, false);
-                strPw = SprEngine.Compile(strPw, ctx);
-            }
-
             DateTime lastModifiedTime;
 
-            lock (m_oCacheSync)
-            {
-                if (!m_dCache.TryGetValue(strPw, out lastModifiedTime)) lastModifiedTime = DateTime.MaxValue;
-            }
-
-            if (lastModifiedTime == DateTime.MaxValue)
-            {
-                lastModifiedTime = pe.GetPasswordLastModified();
-
-                lock (m_oCacheSync)
-                {
-                    m_dCache[strPw] = lastModifiedTime;
-                }
-            }
+            lastModifiedTime = pe.GetPasswordLastModified();
 
             return (TimeUtil.ToDisplayString(lastModifiedTime));
         }
