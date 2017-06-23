@@ -26,7 +26,7 @@ This should give accurate results if you maintain the history for each entry, ho
 
 ## Notes
 
-* Sorting does not work currently
+* Sorting does not work currently due to this not being available to custom columns.
 
 
 ## Donate
